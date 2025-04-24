@@ -154,9 +154,9 @@
                             <tbody>
                                 {% for detection in detections %}
                                 <tr>
-                                    <td>{{ detection.dataset.name }}</td>
+                                    <td>{{ detection.dataset_name }}</td>
                                     <td>{{ detection.model_name }}</td>
-                                    <td>{{ detection.detection_date.strftime('%Y-%m-%d %H:%M') }}</td>
+                                    <td>{{ detection.detection_date }}</td>
                                     <td>{{ detection.anomaly_count }}</td>
                                     <td>{{ (detection.anomaly_count / 1000 * 100)|round(2) }}%</td>
                                     <td>
