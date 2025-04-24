@@ -1,0 +1,76 @@
+✅ System Title
+Anomaly Detection in Energy Consumption Using Machine Learning
+
+🎯 System Summary
+The platform will detect unusual patterns in energy consumption using machine learning. It should be visually rich, intuitive, responsive, and fully functional offline. The aim is to present insights through clean, interactive visuals rather than long text.
+
+🔐 Login Page
+Professional design with a clean layout and subtle energy-themed imagery
+
+Fields: Username & Password
+
+Optional: “Remember Me” checkbox
+
+Successful login redirects to the Dashboard
+
+🧭 Sidebar Navigation (Collapsible + Icon-Based)
+Sidebar should be minimal and intuitive, including:
+
+Dashboard – Real-time graphs and summary stats
+
+Upload Data – Upload energy usage datasets
+
+Run Detection – Execute selected ML models
+
+Results – Visual representation of detected anomalies
+
+Model Insights – Charts showing model performance (accuracy, precision, recall)
+
+Recommendations – AI-based suggestions for optimizing energy use
+
+Settings – Theme toggle, thresholds, system controls
+
+📊 Visualization Requirements
+Interactive line charts for energy data with:
+
+Red dots or shaded zones highlighting anomalies
+
+Additional charts (bar, heatmap, scatter) where helpful
+
+Charts should be created using Plotly, D3.js, or Chart.js
+
+Focus is on visuals — minimize explanatory text
+
+🖼️ Design & Imagery
+Modern UI with a professional theme
+
+Rounded corners, smooth transitions, consistent fonts
+
+Use of energy-related imagery/icons (e.g., solar panels, electricity grids) within:
+
+Dashboard headers
+
+Section banners
+
+Sidebar or content backgrounds
+
+Responsive across desktop and mobile
+
+⚙️ Backend (Flask + ML)
+Flask-powered, fully offline setup
+
+Users can:
+
+Upload CSV files
+
+Trigger model analysis (Isolation Forest, Autoencoders, K-Means)
+
+View anomaly results with clear visuals
+
+Review model metrics in graph form
+
+Receive system-generated recommendations
+
+📜 Footer
+Include this on every page:
+© 2025 Opulent Chikwiramakomo. All rights reserved.
