@@ -310,3 +310,19 @@ body.dark-mode {
 .dark-mode .js-plotly-plot .plotly .modebar-btn path {
   fill: var(--dark-text-muted) !important;
 }
+
+/* Dark mode toggle styling */
+.dark-mode .form-check-input[type="checkbox"] {
+  background-color: var(--dark-bg);
+  border-color: var(--dark-border-color);
+}
+
+.dark-mode #darkModeToggle:checked {
+  background-color: var(--energy-blue);
+  border-color: var(--energy-blue);
+}
+
+.dark-mode .form-check-label i {
+  color: var(--energy-blue);
+  text-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
+}

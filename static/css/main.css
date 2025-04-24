@@ -790,3 +790,27 @@ body {
     min-height: 800px;
   }
 }
+
+/* Dark mode toggle styles */
+.form-check-input[type="checkbox"] {
+  height: 1.25rem;
+  width: 2.5rem;
+  cursor: pointer;
+}
+
+#darkModeToggle:checked {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.form-check-label {
+  cursor: pointer;
+  margin-left: 0.25rem;
+}
+
+.form-check-label i {
+  font-size: 1.2rem;
+  vertical-align: middle;
+  color: var(--primary-color);
+  transition: all 0.3s ease;
+}

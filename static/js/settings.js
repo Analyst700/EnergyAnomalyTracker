@@ -46,6 +46,11 @@ function toggleDarkMode(enabled) {
         document.body.classList.remove('dark-mode');
         localStorage.setItem('darkMode', 'false');
     }
+    
+    // Apply theme preferences (will redraw charts)
+    if (typeof applyThemePreferences === 'function') {
+        applyThemePreferences();
+    }
 }
 
 // Function to request notification permission

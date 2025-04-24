@@ -34,6 +34,26 @@ document.addEventListener('DOMContentLoaded', function() {
     // Apply theme preferences from settings
     applyThemePreferences();
     
+    // Dark mode toggle in navbar
+    const darkModeToggle = document.getElementById('darkModeToggle');
+    if (darkModeToggle) {
+        darkModeToggle.addEventListener('change', function() {
+            const isDarkMode = this.checked;
+            
+            // Update localStorage
+            localStorage.setItem('darkMode', isDarkMode ? 'true' : 'false');
+            
+            // Apply theme changes (will redraw charts)
+            applyThemePreferences();
+            
+            // Update icon
+            const icon = this.nextElementSibling.querySelector('i');
+            if (icon) {
+                icon.className = isDarkMode ? 'fas fa-moon' : 'fas fa-sun';
+            }
+        });
+    }
+    
     // Check for notifications permission
     checkNotificationPermission();
 });
@@ -42,11 +62,26 @@ document.addEventListener('DOMContentLoaded', function() {
 function applyThemePreferences() {
     // Check if user has dark mode enabled in settings
     const isDarkMode = localStorage.getItem('darkMode') === 'true';
+    const wasInDarkMode = document.body.classList.contains('dark-mode');
     
     if (isDarkMode) {
         document.body.classList.add('dark-mode');
     } else {
         document.body.classList.remove('dark-mode');
+    }
+    
+    // If the mode changed, we need to redraw the charts
+    if (isDarkMode !== wasInDarkMode) {
+        // Force reload charts by calling their initialization functions
+        if (typeof createEnergyConsumptionChart === 'function') createEnergyConsumptionChart();
+        if (typeof createAnomalyDistributionChart === 'function') createAnomalyDistributionChart();
+        if (typeof createAnomalyTypesChart === 'function') createAnomalyTypesChart();
+        if (typeof createTimeOfDayChart === 'function') createTimeOfDayChart();
+        
+        // Add watermarks again, if they exist
+        if (typeof addEnergyThemedBackground === 'function') {
+            setTimeout(addEnergyThemedBackground, 300);
+        }
     }
 }
 
