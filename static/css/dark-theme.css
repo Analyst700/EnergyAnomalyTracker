@@ -12,6 +12,10 @@
   --dark-text: #ecf0f1;
   --dark-text-muted: #bdc3c7;
   --dark-border-color: #34495e;
+  --energy-blue: #3498db;
+  --energy-green: #2ecc71;
+  --energy-orange: #e67e22;
+  --energy-yellow: #f1c40f;
 }
 
 body.dark-mode {
@@ -168,6 +172,40 @@ body.dark-mode {
   padding: 5px;
 }
 
+/* Energy-themed styles for dark mode */
+.dark-mode .chart-watermark {
+  color: var(--energy-blue);
+  opacity: 0.08;
+}
+
+.dark-mode .chart-label {
+  background-color: rgba(52, 152, 219, 0.15);
+  color: var(--energy-blue);
+}
+
+/* Card energy-themed overlays for dark mode */
+.dark-mode .card {
+  position: relative;
+  overflow: hidden;
+}
+
+.dark-mode .card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at top right, rgba(52, 152, 219, 0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* Energy-themed headers in dark mode */
+.dark-mode .card-header h5 i {
+  color: var(--energy-blue);
+  text-shadow: 0 0 10px rgba(52, 152, 219, 0.3);
+}
+
 /* Footer Styles */
 .dark-mode .footer {
   background-color: var(--dark-card-bg);
@@ -183,6 +221,65 @@ body.dark-mode {
 .dark-mode .tip-item {
   background-color: var(--dark-card-bg);
   border-color: var(--dark-border-color);
+}
+
+/* Dark mode dashboard header styles */
+.dark-mode .dashboard-header {
+  background: linear-gradient(135deg, rgba(26, 82, 118, 0.3) 0%, rgba(26, 82, 118, 0.1) 100%);
+}
+
+.dark-mode .energy-icon {
+  color: var(--energy-blue);
+}
+
+.dark-mode .metric-badge {
+  background-color: rgba(52, 152, 219, 0.2);
+  color: var(--energy-blue);
+}
+
+.dark-mode .energy-visual {
+  background-color: rgba(26, 82, 118, 0.3);
+}
+
+.dark-mode .energy-visual i {
+  color: var(--energy-blue);
+  text-shadow: 0 0 10px rgba(52, 152, 219, 0.5);
+}
+
+.dark-mode .energy-visual::before {
+  background: linear-gradient(to right, 
+    rgba(52, 152, 219, 0.2),
+    rgba(52, 152, 219, 0.8),
+    rgba(52, 152, 219, 0.2)
+  );
+}
+
+.dark-mode .energy-flow {
+  background: linear-gradient(to right, 
+    rgba(52, 152, 219, 0),
+    rgba(52, 152, 219, 0.8),
+    rgba(52, 152, 219, 0)
+  );
+}
+
+.dark-mode .insight-icon {
+  color: var(--energy-blue);
+}
+
+/* Glowing energy-themed header icons in dark mode */
+.dark-mode .card-header h5 i {
+  animation: glow 3s infinite alternate;
+}
+
+@keyframes glow {
+  from {
+    text-shadow: 0 0 2px rgba(52, 152, 219, 0.2),
+                0 0 4px rgba(52, 152, 219, 0.2);
+  }
+  to {
+    text-shadow: 0 0 6px rgba(52, 152, 219, 0.6),
+                0 0 8px rgba(52, 152, 219, 0.4);
+  }
 }
 
 /* Dark theme for Plotly Charts */

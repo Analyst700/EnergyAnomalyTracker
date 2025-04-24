@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
     createTimeOfDayChart();
 });
 
-// Function to check if dark mode is enabled
+// Function to check if dark mode is active
 function isDarkMode() {
     return document.body.classList.contains('dark-mode');
 }
