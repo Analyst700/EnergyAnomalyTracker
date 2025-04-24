@@ -1,0 +1,160 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="results-container">
+    <div class="page-header">
+        <h1><i class="fas fa-chart-line"></i> Detection Results</h1>
+        <p class="text-muted">
+            Results for {{ dataset.name }} using {{ detection.model_name }} 
+            <span class="badge bg-primary">{{ detection.detection_date.strftime('%Y-%m-%d %H:%M') }}</span>
+        </p>
+    </div>
+    
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5>Energy Consumption with Anomalies</h5>
+                </div>
+                <div class="card-body">
+                    <div id="mainChart" class="chart-container"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5>Anomaly Statistics</h5>
+                </div>
+                <div class="card-body">
+                    <div class="stats-container">
+                        <div class="stat-item">
+                            <div class="stat-icon bg-primary">
+                                <i class="fas fa-exclamation-circle"></i>
+                            </div>
+                            <div class="stat-details">
+                                <h4>{{ detection.anomaly_count }}</h4>
+                                <p>Anomalies Detected</p>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-icon bg-info">
+                                <i class="fas fa-percentage"></i>
+                            </div>
+                            <div class="stat-details">
+                                <h4>{{ (detection.anomaly_count / value_data|length * 100)|round(1) }}%</h4>
+                                <p>Of Total Data Points</p>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-icon bg-warning">
+                                <i class="fas fa-bolt"></i>
+                            </div>
+                            <div class="stat-details">
+                                <h4 id="avgDeviation">Calculating...</h4>
+                                <p>Avg. Deviation from Normal</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5>Model Performance</h5>
+                </div>
+                <div class="card-body">
+                    <div id="modelPerformanceChart" class="chart-container-sm"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5>Anomaly Distribution</h5>
+                </div>
+                <div class="card-body">
+                    <div id="distributionChart" class="chart-container"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5>Anomaly Scores</h5>
+                </div>
+                <div class="card-body">
+                    <div id="scoresChart" class="chart-container"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-12">
+            <div class="card mb-4">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5><i class="fas fa-lightbulb"></i> Recommendations</h5>
+                    <a href="{{ url_for('recommendations') }}" class="btn btn-sm btn-outline-primary">View All Recommendations</a>
+                </div>
+                <div class="card-body">
+                    {% if recommendations %}
+                        <div class="recommendations-container">
+                            {% for recommendation in recommendations %}
+                                <div class="recommendation-item priority-{{ recommendation.priority }}">
+                                    <div class="recommendation-icon">
+                                        {% if recommendation.priority >= 4 %}
+                                            <i class="fas fa-exclamation-triangle"></i>
+                                        {% elif recommendation.priority == 3 %}
+                                            <i class="fas fa-info-circle"></i>
+                                        {% else %}
+                                            <i class="fas fa-lightbulb"></i>
+                                        {% endif %}
+                                    </div>
+                                    <div class="recommendation-content">
+                                        <p>{{ recommendation.text }}</p>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="alert alert-info">
+                            No specific recommendations available for this detection.
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-12 text-center mt-3 mb-4">
+            <a href="{{ url_for('detection') }}" class="btn btn-primary me-2">
+                <i class="fas fa-search"></i> Run Another Detection
+            </a>
+            <a href="{{ url_for('insights') }}" class="btn btn-info">
+                <i class="fas fa-lightbulb"></i> View Model Insights
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Pass data from Flask to JavaScript
+    const timeData = {{ time_data|tojson }};
+    const valueData = {{ value_data|tojson }};
+    const anomalyData = {{ anomaly_data|tojson }};
+    const scoreData = {{ score_data|tojson }};
+    const modelName = "{{ detection.model_name }}";
+    
+    // Convert Python boolean list to JavaScript boolean array
+    const anomalyBoolArray = anomalyData.map(val => val === 1);
+</script>
+<script src="{{ url_for('static', filename='js/chart-utils.js') }}"></script>
+<script src="{{ url_for('static', filename='js/results.js') }}"></script>
+{% endblock %}

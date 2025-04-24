@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+  <!-- Background circle -->
+  <circle cx="50" cy="50" r="45" fill="#2980b9" />
+  
+  <!-- Lightning bolt -->
+  <path d="M60 25 L45 50 L55 50 L40 75 L55 50 L45 50 L60 25" fill="#ecf0f1" stroke="#ecf0f1" stroke-width="2" />
+  
+  <!-- Anomaly graph line -->
+  <path d="M20 65 Q30 65 35 55 Q40 45 45 45 Q50 45 55 50 Q60 55 65 30 Q70 55 75 55 Q80 55 85 65" 
+        fill="none" stroke="#ecf0f1" stroke-width="2" />
+  
+  <!-- Anomaly point -->
+  <circle cx="65" cy="30" r="4" fill="#e74c3c" stroke="#ecf0f1" stroke-width="1" />
+</svg>

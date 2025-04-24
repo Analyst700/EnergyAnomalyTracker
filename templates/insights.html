@@ -1,0 +1,241 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="insights-container">
+    <div class="page-header">
+        <h1><i class="fas fa-lightbulb"></i> Model Insights</h1>
+        <p class="text-muted">Performance analysis of different anomaly detection models</p>
+    </div>
+    
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5>Model Performance Comparison</h5>
+                </div>
+                <div class="card-body">
+                    <div id="modelComparisonChart" class="chart-container-lg"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5>Performance Metrics</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="nav nav-tabs" id="metricsTab" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="isolation-tab" data-bs-toggle="tab" data-bs-target="#isolation" type="button" role="tab" aria-controls="isolation" aria-selected="true">Isolation Forest</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="autoencoder-tab" data-bs-toggle="tab" data-bs-target="#autoencoder" type="button" role="tab" aria-controls="autoencoder" aria-selected="false">Autoencoder</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="kmeans-tab" data-bs-toggle="tab" data-bs-target="#kmeans" type="button" role="tab" aria-controls="kmeans" aria-selected="false">K-Means</button>
+                        </li>
+                    </ul>
+                    <div class="tab-content pt-3" id="metricsTabContent">
+                        <div class="tab-pane fade show active" id="isolation" role="tabpanel" aria-labelledby="isolation-tab">
+                            <table class="table table-hover">
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">Anomaly Detection Rate</th>
+                                        <td id="isolation-adr">-</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Average Processing Time</th>
+                                        <td id="isolation-time">-</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Memory Usage</th>
+                                        <td id="isolation-memory">-</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Best For</th>
+                                        <td>Global anomalies, High-dimensional data</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="tab-pane fade" id="autoencoder" role="tabpanel" aria-labelledby="autoencoder-tab">
+                            <table class="table table-hover">
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">Anomaly Detection Rate</th>
+                                        <td id="autoencoder-adr">-</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Average Processing Time</th>
+                                        <td id="autoencoder-time">-</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Memory Usage</th>
+                                        <td id="autoencoder-memory">-</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Best For</th>
+                                        <td>Complex patterns, Temporal data</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="tab-pane fade" id="kmeans" role="tabpanel" aria-labelledby="kmeans-tab">
+                            <table class="table table-hover">
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">Anomaly Detection Rate</th>
+                                        <td id="kmeans-adr">-</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Average Processing Time</th>
+                                        <td id="kmeans-time">-</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Memory Usage</th>
+                                        <td id="kmeans-memory">-</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Best For</th>
+                                        <td>Clustered data, Distance-based anomalies</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5>Anomaly Count by Model</h5>
+                </div>
+                <div class="card-body">
+                    <div id="anomalyCountChart" class="chart-container"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5>Detection Timeline</h5>
+                </div>
+                <div class="card-body">
+                    <div id="timelineChart" class="chart-container"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-12">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5>Recent Model Performance</h5>
+                </div>
+                <div class="card-body">
+                    {% if detections %}
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Dataset</th>
+                                    <th>Model</th>
+                                    <th>Detection Date</th>
+                                    <th>Anomalies</th>
+                                    <th>Detection Rate</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for detection in detections %}
+                                <tr>
+                                    <td>{{ detection.dataset.name }}</td>
+                                    <td>{{ detection.model_name }}</td>
+                                    <td>{{ detection.detection_date.strftime('%Y-%m-%d %H:%M') }}</td>
+                                    <td>{{ detection.anomaly_count }}</td>
+                                    <td>{{ (detection.anomaly_count / 1000 * 100)|round(2) }}%</td>
+                                    <td>
+                                        <a href="{{ url_for('results', detection_id=detection.id) }}" class="btn btn-sm btn-primary">
+                                            <i class="fas fa-chart-line"></i> View Results
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% else %}
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle"></i> No model runs available yet.
+                        <a href="{{ url_for('detection') }}" class="alert-link">Run anomaly detection</a> to see model insights.
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-12">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5>Model Selection Guide</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="model-guide-item">
+                                <h4><i class="fas fa-tree"></i> Isolation Forest</h4>
+                                <p><strong>Strengths:</strong></p>
+                                <ul>
+                                    <li>Fast processing time</li>
+                                    <li>Handles high-dimensional data well</li>
+                                    <li>Detects global anomalies efficiently</li>
+                                </ul>
+                                <p><strong>Best for:</strong> Datasets with clear outliers, general-purpose detection</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="model-guide-item">
+                                <h4><i class="fas fa-network-wired"></i> Autoencoder</h4>
+                                <p><strong>Strengths:</strong></p>
+                                <ul>
+                                    <li>Captures complex patterns</li>
+                                    <li>Works well with temporal data</li>
+                                    <li>Adapts to different data distributions</li>
+                                </ul>
+                                <p><strong>Best for:</strong> Time series data, complex anomaly patterns</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="model-guide-item">
+                                <h4><i class="fas fa-object-group"></i> K-Means</h4>
+                                <p><strong>Strengths:</strong></p>
+                                <ul>
+                                    <li>Simple and interpretable</li>
+                                    <li>Efficient on large datasets</li>
+                                    <li>Good at finding cluster-based anomalies</li>
+                                </ul>
+                                <p><strong>Best for:</strong> Data with natural clusters, distance-based anomalies</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Parse detection data for charts
+    const detections = {{ detections|tojson }};
+</script>
+<script src="{{ url_for('static', filename='js/model-insights.js') }}"></script>
+{% endblock %}

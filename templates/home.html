@@ -1,0 +1,147 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="home-container">
+    <div class="home-header">
+        <h1>Energy Consumption Anomaly Detection</h1>
+        <p class="lead">Monitor and detect anomalies in energy use with clarity and precision.</p>
+    </div>
+
+    <div class="home-background">
+        <div class="home-overlay">
+            <div class="features-container">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="feature-card">
+                            <i class="fas fa-laptop-code"></i>
+                            <h3>Offline Mode</h3>
+                            <p>Process and analyze data locally without internet connection</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="feature-card">
+                            <i class="fas fa-chart-line"></i>
+                            <h3>Real-Time Detection</h3>
+                            <p>Detect energy consumption anomalies as data becomes available</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="feature-card">
+                            <i class="fas fa-brain"></i>
+                            <h3>Machine Learning</h3>
+                            <p>Leverage advanced algorithms to identify unusual patterns</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row mt-4">
+                    <div class="col-md-6">
+                        <div class="feature-card">
+                            <i class="fas fa-chart-bar"></i>
+                            <h3>Interactive Visualizations</h3>
+                            <p>Explore your energy data through rich, interactive charts</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="feature-card">
+                            <i class="fas fa-lightbulb"></i>
+                            <h3>Smart Recommendations</h3>
+                            <p>Get actionable insights to optimize energy usage</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="chart-preview">
+                    <h3>Anomaly Detection Preview</h3>
+                    <div id="previewChart"></div>
+                </div>
+                
+                <div class="cta-container">
+                    <a href="{{ url_for('dashboard') }}" class="btn btn-lg btn-primary">
+                        Enter Dashboard <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Sample data for preview chart
+    const timeData = Array.from({length: 100}, (_, i) => new Date(2023, 0, 1, i % 24).toISOString());
+    const valueData = Array.from({length: 100}, () => Math.random() * 10 + 20);
+    
+    // Add some anomalies
+    valueData[25] = 45;
+    valueData[65] = 48;
+    valueData[85] = 5;
+    
+    // Create anomaly points
+    const anomalyIndices = [25, 65, 85];
+    const anomalyTimes = anomalyIndices.map(i => timeData[i]);
+    const anomalyValues = anomalyIndices.map(i => valueData[i]);
+    
+    // Create traces for the chart
+    const normalTrace = {
+        x: timeData,
+        y: valueData,
+        type: 'scatter',
+        mode: 'lines',
+        name: 'Energy Consumption',
+        line: {
+            color: '#2980b9',
+            width: 2
+        }
+    };
+    
+    const anomalyTrace = {
+        x: anomalyTimes,
+        y: anomalyValues,
+        type: 'scatter',
+        mode: 'markers',
+        name: 'Anomalies',
+        marker: {
+            color: '#e74c3c',
+            size: 10,
+            symbol: 'circle'
+        }
+    };
+    
+    // Layout configuration
+    const layout = {
+        title: 'Energy Consumption Pattern with Anomalies',
+        autosize: true,
+        height: 300,
+        margin: {
+            l: 50,
+            r: 50,
+            b: 80,
+            t: 50,
+            pad: 4
+        },
+        xaxis: {
+            title: 'Time',
+            showgrid: false
+        },
+        yaxis: {
+            title: 'Energy Usage (kWh)',
+            showgrid: true
+        },
+        showlegend: true,
+        legend: {
+            x: 0,
+            y: 1
+        },
+        hovermode: 'closest',
+        plot_bgcolor: 'rgba(255,255,255,0.9)',
+        paper_bgcolor: 'rgba(255,255,255,0.9)'
+    };
+    
+    // Create the chart
+    Plotly.newPlot('previewChart', [normalTrace, anomalyTrace], layout, {responsive: true});
+});
+</script>
+{% endblock %}

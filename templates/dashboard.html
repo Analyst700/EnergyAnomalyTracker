@@ -1,0 +1,186 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="dashboard-container">
+    <div class="dashboard-header">
+        <h1>Dashboard</h1>
+        <p class="text-muted">Overview of your energy consumption and anomaly detection</p>
+    </div>
+    
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5><i class="fas fa-tachometer-alt"></i> Energy Consumption Overview</h5>
+                </div>
+                <div class="card-body">
+                    <div id="consumptionChart" class="chart-container"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5><i class="fas fa-exclamation-triangle"></i> Anomaly Distribution</h5>
+                </div>
+                <div class="card-body">
+                    <div id="anomalyDistributionChart" class="chart-container"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5><i class="fas fa-chart-pie"></i> Anomaly Types</h5>
+                </div>
+                <div class="card-body">
+                    <div id="anomalyTypesChart" class="chart-container"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5><i class="fas fa-calendar-alt"></i> Time-of-Day Analysis</h5>
+                </div>
+                <div class="card-body">
+                    <div id="timeOfDayChart" class="chart-container"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5><i class="fas fa-database"></i> Recent Datasets</h5>
+                </div>
+                <div class="card-body">
+                    {% if recent_datasets %}
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Upload Date</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for dataset in recent_datasets %}
+                                <tr>
+                                    <td>{{ dataset.name }}</td>
+                                    <td>{{ dataset.upload_date.strftime('%Y-%m-%d') }}</td>
+                                    <td>
+                                        <a href="{{ url_for('detection') }}" class="btn btn-sm btn-primary">
+                                            <i class="fas fa-search"></i> Analyze
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% else %}
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle"></i> No datasets uploaded yet.
+                        <a href="{{ url_for('upload') }}" class="alert-link">Upload your first dataset</a>.
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5><i class="fas fa-search"></i> Recent Detections</h5>
+                </div>
+                <div class="card-body">
+                    {% if recent_detections %}
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Dataset</th>
+                                    <th>Model</th>
+                                    <th>Anomalies</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for detection in recent_detections %}
+                                <tr>
+                                    <td>{{ detection.dataset.name }}</td>
+                                    <td>{{ detection.model_name }}</td>
+                                    <td>{{ detection.anomaly_count }}</td>
+                                    <td>
+                                        <a href="{{ url_for('results', detection_id=detection.id) }}" class="btn btn-sm btn-info">
+                                            <i class="fas fa-chart-line"></i> View
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% else %}
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle"></i> No anomaly detections run yet.
+                        <a href="{{ url_for('detection') }}" class="alert-link">Run your first detection</a>.
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-12">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5><i class="fas fa-lightbulb"></i> Quick Insights</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="insight-item">
+                                <i class="fas fa-bolt insight-icon"></i>
+                                <div class="insight-content">
+                                    <h4>Energy Usage Patterns</h4>
+                                    <p>Analyze your energy consumption patterns to identify trends and anomalies.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="insight-item">
+                                <i class="fas fa-search-dollar insight-icon"></i>
+                                <div class="insight-content">
+                                    <h4>Cost Optimization</h4>
+                                    <p>Detect unusual usage that may lead to higher energy costs.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="insight-item">
+                                <i class="fas fa-leaf insight-icon"></i>
+                                <div class="insight-content">
+                                    <h4>Environmental Impact</h4>
+                                    <p>Reduce your carbon footprint by optimizing energy consumption.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+{% endblock %}

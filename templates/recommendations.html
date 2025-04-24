@@ -1,0 +1,125 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="recommendations-container">
+    <div class="page-header">
+        <h1><i class="fas fa-clipboard-list"></i> Recommendations</h1>
+        <p class="text-muted">AI-based suggestions for optimizing energy usage</p>
+    </div>
+    
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5>Energy Optimization Recommendations</h5>
+                </div>
+                <div class="card-body">
+                    {% if recommendations %}
+                        <div class="filter-controls mb-3">
+                            <div class="btn-group" role="group">
+                                <button type="button" class="btn btn-outline-primary active" data-filter="all">All</button>
+                                <button type="button" class="btn btn-outline-danger" data-filter="high">High Priority</button>
+                                <button type="button" class="btn btn-outline-warning" data-filter="medium">Medium Priority</button>
+                                <button type="button" class="btn btn-outline-info" data-filter="low">Low Priority</button>
+                            </div>
+                        </div>
+                        
+                        <div class="recommendations-list">
+                            {% for recommendation in recommendations %}
+                                {% set priority_class = 'high' if recommendation.priority >= 4 else ('medium' if recommendation.priority == 3 else 'low') %}
+                                
+                                <div class="recommendation-card priority-{{ priority_class }}" data-priority="{{ priority_class }}">
+                                    <div class="recommendation-header">
+                                        <div class="priority-badge priority-{{ priority_class }}">
+                                            {{ 'High' if recommendation.priority >= 4 else ('Medium' if recommendation.priority == 3 else 'Low') }}
+                                        </div>
+                                        <div class="recommendation-date">
+                                            {{ recommendation.created_at.strftime('%Y-%m-%d') }}
+                                        </div>
+                                    </div>
+                                    <div class="recommendation-body">
+                                        <p>{{ recommendation.text }}</p>
+                                    </div>
+                                    <div class="recommendation-footer">
+                                        <small class="text-muted">Based on analysis of {{ recommendation.detection.dataset.name }}</small>
+                                        <a href="{{ url_for('results', detection_id=recommendation.detection_id) }}" class="btn btn-sm btn-outline-primary">
+                                            <i class="fas fa-chart-line"></i> View Analysis
+                                        </a>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="alert alert-info">
+                            <i class="fas fa-info-circle"></i> No recommendations available yet.
+                            <a href="{{ url_for('detection') }}" class="alert-link">Run anomaly detection</a> to generate recommendations.
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5>Recommendation Summary</h5>
+                </div>
+                <div class="card-body">
+                    <div id="recommendationChart" class="chart-container-sm"></div>
+                </div>
+            </div>
+            
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5>Energy Saving Tips</h5>
+                </div>
+                <div class="card-body">
+                    <div class="tip-item">
+                        <div class="tip-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="tip-content">
+                            <h5>Time-of-Use Optimization</h5>
+                            <p>Shift energy-intensive activities to off-peak hours to reduce costs and grid strain.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="tip-item">
+                        <div class="tip-icon">
+                            <i class="fas fa-temperature-low"></i>
+                        </div>
+                        <div class="tip-content">
+                            <h5>HVAC Management</h5>
+                            <p>Optimize heating and cooling schedules based on occupancy and external temperature.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="tip-item">
+                        <div class="tip-icon">
+                            <i class="fas fa-plug"></i>
+                        </div>
+                        <div class="tip-content">
+                            <h5>Standby Power Reduction</h5>
+                            <p>Identify and eliminate phantom loads from devices in standby mode.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="tip-item">
+                        <div class="tip-icon">
+                            <i class="fas fa-lightbulb"></i>
+                        </div>
+                        <div class="tip-content">
+                            <h5>Lighting Efficiency</h5>
+                            <p>Replace inefficient lighting and install motion sensors in low-traffic areas.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/recommendations.js') }}"></script>
+{% endblock %}

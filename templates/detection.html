@@ -1,0 +1,178 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="detection-container">
+    <div class="page-header">
+        <h1><i class="fas fa-search"></i> Run Anomaly Detection</h1>
+        <p class="text-muted">Apply machine learning algorithms to identify anomalous energy consumption patterns</p>
+    </div>
+    
+    <div class="row">
+        <div class="col-md-7">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5>Detection Configuration</h5>
+                </div>
+                <div class="card-body">
+                    {% if form.dataset.choices|length > 0 %}
+                    <form method="POST">
+                        {{ form.hidden_tag() }}
+                        
+                        <div class="form-group mb-3">
+                            <label for="dataset">{{ form.dataset.label }}</label>
+                            {{ form.dataset(class="form-control") }}
+                            {% if form.dataset.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.dataset.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="form-group mb-3">
+                            <label for="model">{{ form.model.label }}</label>
+                            {{ form.model(class="form-control") }}
+                            {% if form.model.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.model.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="form-group mb-3">
+                            <label for="contamination">{{ form.contamination.label }}</label>
+                            {{ form.contamination(class="form-control", type="range", min="0.01", max="0.5", step="0.01") }}
+                            <div class="d-flex justify-content-between">
+                                <small>Few anomalies (0.01)</small>
+                                <span id="contaminationValue">0.05</span>
+                                <small>Many anomalies (0.5)</small>
+                            </div>
+                            {% if form.contamination.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.contamination.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="form-group mb-3">
+                            <div id="dataPreview">
+                                <h6>Dataset Preview</h6>
+                                <div class="data-preview-container">
+                                    <p class="text-muted">Select a dataset to preview its data</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="d-grid gap-2">
+                            {{ form.submit(class="btn btn-primary") }}
+                        </div>
+                    </form>
+                    {% else %}
+                    <div class="alert alert-warning">
+                        <i class="fas fa-exclamation-triangle"></i> No datasets available.
+                        <a href="{{ url_for('upload') }}" class="alert-link">Upload a dataset</a> first.
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-5">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5>Model Information</h5>
+                </div>
+                <div class="card-body">
+                    <div class="accordion" id="modelAccordion">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="isolationForestHeading">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#isolationForestCollapse" aria-expanded="true" aria-controls="isolationForestCollapse">
+                                    Isolation Forest
+                                </button>
+                            </h2>
+                            <div id="isolationForestCollapse" class="accordion-collapse collapse show" aria-labelledby="isolationForestHeading" data-bs-parent="#modelAccordion">
+                                <div class="accordion-body">
+                                    <p>Isolation Forest is effective at detecting anomalies by isolating observations through random feature selection and random splitting. The algorithm works by:</p>
+                                    <ul>
+                                        <li>Building isolation trees for random subsample of data</li>
+                                        <li>Determining anomaly score based on path length through trees</li>
+                                        <li>Identifying points that are easily isolated as anomalies</li>
+                                    </ul>
+                                    <p>Best for: General-purpose anomaly detection with high-dimensional data.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="autoencoderHeading">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#autoencoderCollapse" aria-expanded="false" aria-controls="autoencoderCollapse">
+                                    Autoencoder
+                                </button>
+                            </h2>
+                            <div id="autoencoderCollapse" class="accordion-collapse collapse" aria-labelledby="autoencoderHeading" data-bs-parent="#modelAccordion">
+                                <div class="accordion-body">
+                                    <p>Autoencoders are neural networks that learn to compress and reconstruct data. Anomalies are detected by:</p>
+                                    <ul>
+                                        <li>Learning a compressed representation of normal data</li>
+                                        <li>Calculating reconstruction error for new data points</li>
+                                        <li>Flagging points with high reconstruction error as anomalies</li>
+                                    </ul>
+                                    <p>Best for: Complex patterns and temporal or sequential data.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="kmeansHeading">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#kmeansCollapse" aria-expanded="false" aria-controls="kmeansCollapse">
+                                    K-Means Clustering
+                                </button>
+                            </h2>
+                            <div id="kmeansCollapse" class="accordion-collapse collapse" aria-labelledby="kmeansHeading" data-bs-parent="#modelAccordion">
+                                <div class="accordion-body">
+                                    <p>K-Means identifies anomalies by clustering data points and finding those far from cluster centers:</p>
+                                    <ul>
+                                        <li>Partitioning data into clusters based on similarity</li>
+                                        <li>Calculating distance of each point to its cluster center</li>
+                                        <li>Points with large distances are considered anomalies</li>
+                                    </ul>
+                                    <p>Best for: When anomalies form distinct groups or when normal data forms clear clusters.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5>Configuration Tips</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="config-tips">
+                        <li>
+                            <span class="tip-title">Contamination Factor</span>
+                            <p>This represents the expected proportion of anomalies in your dataset. Lower values (0.01-0.05) are typically appropriate for energy data.</p>
+                        </li>
+                        <li>
+                            <span class="tip-title">Model Selection</span>
+                            <p>Different models perform better on different types of anomalies. Try multiple models and compare results for the most robust detection.</p>
+                        </li>
+                        <li>
+                            <span class="tip-title">Data Quality</span>
+                            <p>Ensure your data is cleaned and preprocessed for best results. Missing values or extreme outliers can affect model performance.</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/anomaly-detection.js') }}"></script>
+{% endblock %}

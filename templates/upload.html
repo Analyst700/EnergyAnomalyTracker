@@ -1,0 +1,144 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="upload-container">
+    <div class="page-header">
+        <h1><i class="fas fa-upload"></i> Upload Data</h1>
+        <p class="text-muted">Import your energy consumption data for analysis</p>
+    </div>
+    
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Upload Energy Consumption Dataset</h5>
+                </div>
+                <div class="card-body">
+                    <form method="POST" enctype="multipart/form-data">
+                        {{ form.hidden_tag() }}
+                        
+                        <div class="form-group mb-3">
+                            <label for="name">{{ form.name.label }}</label>
+                            {{ form.name(class="form-control") }}
+                            {% if form.name.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.name.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="form-group mb-3">
+                            <label for="description">{{ form.description.label }}</label>
+                            {{ form.description(class="form-control", rows=3) }}
+                            {% if form.description.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.description.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="form-group mb-3">
+                            <label for="file">{{ form.file.label }}</label>
+                            {{ form.file(class="form-control") }}
+                            {% if form.file.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.file.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                            <small class="form-text text-muted">
+                                Upload a CSV file with energy consumption data. The file should contain timestamps and consumption values.
+                            </small>
+                        </div>
+                        
+                        <div class="form-group mb-3">
+                            <label for="time_column">{{ form.time_column.label }}</label>
+                            {{ form.time_column(class="form-control") }}
+                            {% if form.time_column.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.time_column.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                            <small class="form-text text-muted">
+                                Specify the column name that contains timestamps (e.g., "date", "time", "timestamp").
+                            </small>
+                        </div>
+                        
+                        <div class="form-group mb-3">
+                            <label for="value_column">{{ form.value_column.label }}</label>
+                            {{ form.value_column(class="form-control") }}
+                            {% if form.value_column.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.value_column.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                            <small class="form-text text-muted">
+                                Specify the column name that contains energy consumption values (e.g., "energy", "kwh", "consumption").
+                            </small>
+                        </div>
+                        
+                        <div class="d-grid gap-2">
+                            {{ form.submit(class="btn btn-primary") }}
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5>Data Format Guidelines</h5>
+                </div>
+                <div class="card-body">
+                    <p><strong>Required Format:</strong> CSV (Comma-Separated Values)</p>
+                    <p><strong>Recommended Columns:</strong></p>
+                    <ul>
+                        <li>Timestamp column (date/time)</li>
+                        <li>Energy consumption values (numeric)</li>
+                    </ul>
+                    <p><strong>Example CSV Structure:</strong></p>
+                    <pre><code>timestamp,energy_kwh
+2023-01-01 00:00,15.2
+2023-01-01 01:00,14.8
+2023-01-01 02:00,13.5
+...</code></pre>
+                    <p><strong>Tips:</strong></p>
+                    <ul>
+                        <li>Ensure data is clean without missing values</li>
+                        <li>Sort data chronologically</li>
+                        <li>Use consistent units for measurements</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <h5>Sample Data</h5>
+                </div>
+                <div class="card-body">
+                    <p>If you don't have your own data yet, you can download a sample dataset:</p>
+                    <div class="d-grid gap-2">
+                        <a href="#" class="btn btn-outline-secondary" id="downloadSample">
+                            <i class="fas fa-download"></i> Download Sample Dataset
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/data-upload.js') }}"></script>
+{% endblock %}
