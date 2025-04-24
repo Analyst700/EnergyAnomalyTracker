@@ -136,13 +136,19 @@ function createBarChart(elementId, labels, values, options = {}) {
             pad: 4
         },
         xaxis: {
-            title: chartOptions.xAxisTitle
+            title: chartOptions.xAxisTitle,
+            color: chartOptions.textColor
         },
         yaxis: {
-            title: chartOptions.yAxisTitle
+            title: chartOptions.yAxisTitle,
+            color: chartOptions.textColor,
+            gridcolor: chartOptions.gridColor
         },
-        plot_bgcolor: 'rgba(255,255,255,0.9)',
-        paper_bgcolor: 'rgba(255,255,255,0.9)'
+        plot_bgcolor: chartOptions.plotBgColor || 'rgba(255,255,255,0.9)',
+        paper_bgcolor: chartOptions.paperBgColor || 'rgba(255,255,255,0.9)',
+        font: {
+            color: chartOptions.textColor
+        }
     };
     
     // Create the chart
@@ -189,7 +195,14 @@ function createPieChart(elementId, labels, values, options = {}) {
         legend: {
             orientation: 'h',
             x: 0,
-            y: -0.2
+            y: -0.2,
+            font: {
+                color: chartOptions.textColor
+            }
+        },
+        paper_bgcolor: chartOptions.paperBgColor || 'rgba(255,255,255,0.9)',
+        font: {
+            color: chartOptions.textColor
         }
     };
     
@@ -233,10 +246,16 @@ function createHeatmap(elementId, xLabels, yLabels, zValues, options = {}) {
             pad: 4
         },
         xaxis: {
-            title: chartOptions.xAxisTitle
+            title: chartOptions.xAxisTitle,
+            color: chartOptions.textColor
         },
         yaxis: {
-            title: chartOptions.yAxisTitle
+            title: chartOptions.yAxisTitle,
+            color: chartOptions.textColor
+        },
+        paper_bgcolor: chartOptions.paperBgColor || 'rgba(255,255,255,0.9)',
+        font: {
+            color: chartOptions.textColor
         }
     };
     
@@ -262,11 +281,17 @@ function createGaugeChart(elementId, value, options = {}) {
     const trace = {
         domain: { x: [0, 1], y: [0, 1] },
         value: value,
-        title: { text: chartOptions.title },
+        title: { 
+            text: chartOptions.title,
+            font: { color: chartOptions.textColor }
+        },
         type: "indicator",
         mode: "gauge+number",
         gauge: {
-            axis: { range: [chartOptions.min, chartOptions.max] },
+            axis: { 
+                range: [chartOptions.min, chartOptions.max],
+                tickcolor: chartOptions.textColor
+            },
             bar: { color: "#2980b9" },
             steps: [
                 { range: [chartOptions.min, chartOptions.threshold], color: "rgba(46, 204, 113, 0.5)" },
@@ -277,6 +302,9 @@ function createGaugeChart(elementId, value, options = {}) {
                 thickness: 0.75,
                 value: chartOptions.threshold
             }
+        },
+        number: {
+            font: { color: chartOptions.textColor }
         }
     };
     
@@ -290,6 +318,10 @@ function createGaugeChart(elementId, value, options = {}) {
             b: 30,
             t: 30,
             pad: 4
+        },
+        paper_bgcolor: chartOptions.paperBgColor || 'rgba(255,255,255,0.9)',
+        font: {
+            color: chartOptions.textColor
         }
     };
     
@@ -342,13 +374,19 @@ function createScatterPlot(elementId, xData, yData, colorData, options = {}) {
             pad: 4
         },
         xaxis: {
-            title: chartOptions.xAxisTitle
+            title: chartOptions.xAxisTitle,
+            color: chartOptions.textColor
         },
         yaxis: {
-            title: chartOptions.yAxisTitle
+            title: chartOptions.yAxisTitle,
+            color: chartOptions.textColor,
+            gridcolor: chartOptions.gridColor
         },
-        plot_bgcolor: 'rgba(255,255,255,0.9)',
-        paper_bgcolor: 'rgba(255,255,255,0.9)'
+        plot_bgcolor: chartOptions.plotBgColor || 'rgba(255,255,255,0.9)',
+        paper_bgcolor: chartOptions.paperBgColor || 'rgba(255,255,255,0.9)',
+        font: {
+            color: chartOptions.textColor
+        }
     };
     
     // Create the chart
@@ -395,8 +433,16 @@ function createRadarChart(elementId, labels, values, options = {}) {
         polar: {
             radialaxis: {
                 visible: true,
-                range: [0, Math.max(...values) * 1.2]
+                range: [0, Math.max(...values) * 1.2],
+                color: chartOptions.textColor
+            },
+            angularaxis: {
+                color: chartOptions.textColor
             }
+        },
+        paper_bgcolor: chartOptions.paperBgColor || 'rgba(255,255,255,0.9)',
+        font: {
+            color: chartOptions.textColor
         }
     };
     
@@ -445,13 +491,18 @@ function createModelMetricsChart(elementId, metrics, options = {}) {
         },
         xaxis: {
             title: 'Score',
-            range: [0, 1]
+            range: [0, 1],
+            color: chartOptions.textColor
         },
         yaxis: {
-            title: ''
+            title: '',
+            color: chartOptions.textColor
         },
-        plot_bgcolor: 'rgba(255,255,255,0.9)',
-        paper_bgcolor: 'rgba(255,255,255,0.9)'
+        plot_bgcolor: chartOptions.plotBgColor || 'rgba(255,255,255,0.9)',
+        paper_bgcolor: chartOptions.paperBgColor || 'rgba(255,255,255,0.9)',
+        font: {
+            color: chartOptions.textColor
+        }
     };
     
     // Create the chart
