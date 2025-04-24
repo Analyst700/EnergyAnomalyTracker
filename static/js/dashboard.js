@@ -73,7 +73,11 @@ function createAnomalyDistributionChart() {
         xAxisTitle: 'Day',
         yAxisTitle: 'Anomaly Count',
         barColor: '#e74c3c',
-        height: 300
+        height: 300,
+        plotBgColor: isDarkMode() ? 'rgba(40, 55, 71, 0.9)' : 'rgba(255,255,255,0.9)',
+        paperBgColor: isDarkMode() ? 'rgba(40, 55, 71, 0.9)' : 'rgba(255,255,255,0.9)',
+        textColor: isDarkMode() ? '#ecf0f1' : '#333',
+        gridColor: isDarkMode() ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'
     });
 }
 
@@ -88,13 +92,50 @@ function createAnomalyTypesChart() {
     // Create pie chart
     createPieChart('anomalyTypesChart', anomalyTypes, typeCounts, {
         title: 'Anomaly Types Distribution',
-        height: 250
+        height: 250,
+        paperBgColor: isDarkMode() ? 'rgba(40, 55, 71, 0.9)' : 'rgba(255,255,255,0.9)',
+        textColor: isDarkMode() ? '#ecf0f1' : '#333',
+        colors: isDarkMode() ? ['#3498db', '#2ecc71', '#e74c3c', '#f39c12', '#9b59b6'] : undefined
+    });
+}
+
+// Add energy-themed imagery background to charts
+function addEnergyThemedBackground() {
+    // Energy-themed backgrounds for each chart container
+    const themeBackgrounds = [
+        { id: 'consumptionChart', icon: 'fa-bolt', label: 'Energy Consumption' },
+        { id: 'anomalyDistributionChart', icon: 'fa-exclamation-triangle', label: 'Anomaly Distribution' },
+        { id: 'anomalyTypesChart', icon: 'fa-chart-pie', label: 'Anomaly Types' },
+        { id: 'timeOfDayChart', icon: 'fa-clock', label: 'Time Analysis' }
+    ];
+    
+    // Add visual elements to each chart
+    themeBackgrounds.forEach(theme => {
+        const container = document.getElementById(theme.id);
+        if (!container) return;
+        
+        // Add an icon watermark
+        const watermark = document.createElement('div');
+        watermark.className = 'chart-watermark';
+        watermark.innerHTML = `<i class="fas ${theme.icon}"></i>`;
+        
+        // Add the watermark before the chart
+        container.parentNode.insertBefore(watermark, container);
+        
+        // Add chart label for accessibility
+        const label = document.createElement('div');
+        label.className = 'chart-label';
+        label.textContent = theme.label;
+        container.parentNode.appendChild(label);
     });
 }
 
 function createTimeOfDayChart() {
     const chart = document.getElementById('timeOfDayChart');
     if (!chart) return;
+    
+    // Call function to add energy-themed elements after all charts are loaded
+    setTimeout(addEnergyThemedBackground, 500);
     
     // Sample data for time-of-day analysis
     const hours = Array.from({length: 24}, (_, i) => `${i}:00`);

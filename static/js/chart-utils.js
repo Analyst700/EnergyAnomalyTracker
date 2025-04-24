@@ -69,21 +69,30 @@ function createAnomalyLineChart(elementId, timeData, valueData, anomalyData, opt
         },
         xaxis: {
             title: chartOptions.xAxisTitle,
-            showgrid: false
+            showgrid: false,
+            color: chartOptions.textColor
         },
         yaxis: {
             title: chartOptions.yAxisTitle,
-            showgrid: true
+            showgrid: true,
+            gridcolor: chartOptions.gridColor,
+            color: chartOptions.textColor
         },
         showlegend: chartOptions.showLegend,
         legend: {
             x: 0,
             y: 1.1,
-            orientation: 'h'
+            orientation: 'h',
+            font: {
+                color: chartOptions.textColor
+            }
         },
         hovermode: 'closest',
-        plot_bgcolor: 'rgba(255,255,255,0.9)',
-        paper_bgcolor: 'rgba(255,255,255,0.9)'
+        plot_bgcolor: chartOptions.plotBgColor || 'rgba(255,255,255,0.9)',
+        paper_bgcolor: chartOptions.paperBgColor || 'rgba(255,255,255,0.9)',
+        font: {
+            color: chartOptions.textColor
+        }
     };
     
     // Create the chart
