@@ -214,7 +214,22 @@ def insights():
     # Get all detections for the current user
     detections = AnomalyDetection.query.join(Dataset).filter(Dataset.user_id == current_user.id).order_by(AnomalyDetection.detection_date.desc()).all()
     
-    return render_template('insights.html', title='Model Insights', detections=detections)
+    # Convert detections to a serializable format for JSON
+    detection_data = []
+    for detection in detections:
+        detection_data.append({
+            'id': detection.id,
+            'model_name': detection.model_name,
+            'detection_date': detection.detection_date.strftime('%Y-%m-%d'),
+            'anomaly_count': detection.anomaly_count,
+            'accuracy': detection.accuracy,
+            'precision': detection.precision,
+            'recall': detection.recall,
+            'f1_score': detection.f1_score,
+            'dataset_name': detection.dataset.name
+        })
+    
+    return render_template('insights.html', title='Model Insights', detections=detection_data)
 
 @app.route('/recommendations')
 @login_required

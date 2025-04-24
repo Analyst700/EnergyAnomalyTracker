@@ -10,7 +10,16 @@ class DataProcessor:
     def __init__(self, upload_folder='uploads'):
         """Initialize the data processor"""
         self.upload_folder = upload_folder
+        self.results_folder = 'results'
+        # Create directories if they don't exist
         os.makedirs(upload_folder, exist_ok=True)
+        os.makedirs(self.results_folder, exist_ok=True)
+        # Set up specific permissions for these directories
+        try:
+            os.chmod(upload_folder, 0o755)
+            os.chmod(self.results_folder, 0o755)
+        except Exception as e:
+            logging.warning(f"Could not set directory permissions: {e}")
         
     def save_upload(self, file, filename):
         """Save uploaded file to disk"""

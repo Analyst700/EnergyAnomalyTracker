@@ -1,0 +1,215 @@
+/* Dark Theme Styles */
+:root {
+  --dark-primary-color: #1a5278;
+  --dark-secondary-color: #24688c;
+  --dark-accent-color: #27ae60;
+  --dark-danger-color: #c0392b;
+  --dark-warning-color: #d35400;
+  --dark-info-color: #2980b9;
+  --dark-bg: #1e272e;
+  --dark-content-bg: #2c3e50;
+  --dark-card-bg: #283747;
+  --dark-text: #ecf0f1;
+  --dark-text-muted: #bdc3c7;
+  --dark-border-color: #34495e;
+}
+
+body.dark-mode {
+  color: var(--dark-text);
+  background-color: var(--dark-bg);
+}
+
+.dark-mode .wrapper {
+  background-color: var(--dark-bg);
+}
+
+/* Sidebar Styles */
+.dark-mode .sidebar {
+  background: linear-gradient(to bottom, var(--dark-primary-color), #0f2a3d);
+}
+
+.dark-mode .sidebar-header {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.dark-mode #content {
+  background-color: var(--dark-bg);
+}
+
+/* Navbar Styles */
+.dark-mode .navbar {
+  background-color: var(--dark-card-bg);
+  color: var(--dark-text);
+}
+
+.dark-mode .navbar-light .navbar-nav .nav-link {
+  color: var(--dark-text);
+}
+
+.dark-mode .dropdown-menu {
+  background-color: var(--dark-card-bg);
+  border-color: var(--dark-border-color);
+}
+
+.dark-mode .dropdown-item {
+  color: var(--dark-text);
+}
+
+.dark-mode .dropdown-item:hover {
+  background-color: var(--dark-primary-color);
+  color: white;
+}
+
+.dark-mode .dropdown-divider {
+  border-top-color: var(--dark-border-color);
+}
+
+/* Card Styles */
+.dark-mode .card {
+  background-color: var(--dark-card-bg);
+  border-color: var(--dark-border-color);
+}
+
+.dark-mode .card-header {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-bottom-color: var(--dark-border-color);
+}
+
+.dark-mode .text-muted {
+  color: var(--dark-text-muted) !important;
+}
+
+/* Table Styles */
+.dark-mode .table {
+  color: var(--dark-text);
+}
+
+.dark-mode .table-hover tbody tr:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.dark-mode .table th,
+.dark-mode .table td {
+  border-top-color: var(--dark-border-color);
+}
+
+/* Form Styles */
+.dark-mode .form-control {
+  background-color: var(--dark-content-bg);
+  border-color: var(--dark-border-color);
+  color: var(--dark-text);
+}
+
+.dark-mode .form-control:focus {
+  background-color: var(--dark-content-bg);
+  border-color: var(--dark-primary-color);
+  color: var(--dark-text);
+}
+
+.dark-mode .form-select {
+  background-color: var(--dark-content-bg);
+  border-color: var(--dark-border-color);
+  color: var(--dark-text);
+}
+
+.dark-mode .input-group-text {
+  background-color: var(--dark-content-bg);
+  border-color: var(--dark-border-color);
+  color: var(--dark-text);
+}
+
+/* Button Styles */
+.dark-mode .btn-primary {
+  background-color: var(--dark-primary-color);
+  border-color: var(--dark-primary-color);
+}
+
+.dark-mode .btn-outline-primary {
+  color: var(--dark-primary-color);
+  border-color: var(--dark-primary-color);
+}
+
+.dark-mode .btn-outline-primary:hover {
+  background-color: var(--dark-primary-color);
+  color: white;
+}
+
+/* Alert Styles */
+.dark-mode .alert-info {
+  background-color: rgba(41, 128, 185, 0.2);
+  border-color: rgba(41, 128, 185, 0.3);
+  color: #3498db;
+}
+
+.dark-mode .alert-success {
+  background-color: rgba(39, 174, 96, 0.2);
+  border-color: rgba(39, 174, 96, 0.3);
+  color: #2ecc71;
+}
+
+.dark-mode .alert-warning {
+  background-color: rgba(211, 84, 0, 0.2);
+  border-color: rgba(211, 84, 0, 0.3);
+  color: #e67e22;
+}
+
+.dark-mode .alert-danger {
+  background-color: rgba(192, 57, 43, 0.2);
+  border-color: rgba(192, 57, 43, 0.3);
+  color: #e74c3c;
+}
+
+/* Chart Styles */
+.dark-mode .chart-container,
+.dark-mode .chart-container-sm,
+.dark-mode .chart-container-lg {
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  padding: 5px;
+}
+
+/* Footer Styles */
+.dark-mode .footer {
+  background-color: var(--dark-card-bg);
+  border-top-color: var(--dark-border-color);
+}
+
+/* Stats and Recommendation Styles */
+.dark-mode .stat-item,
+.dark-mode .recommendation-item,
+.dark-mode .recommendation-card,
+.dark-mode .insight-item,
+.dark-mode .model-guide-item,
+.dark-mode .tip-item {
+  background-color: var(--dark-card-bg);
+  border-color: var(--dark-border-color);
+}
+
+/* Dark theme for Plotly Charts */
+.dark-mode .js-plotly-plot .plotly .main-svg {
+  background-color: var(--dark-card-bg) !important;
+}
+
+.dark-mode .js-plotly-plot .plotly .bg {
+  fill: var(--dark-card-bg) !important;
+}
+
+.dark-mode .js-plotly-plot .plotly .xtick text,
+.dark-mode .js-plotly-plot .plotly .ytick text,
+.dark-mode .js-plotly-plot .plotly .gtitle,
+.dark-mode .js-plotly-plot .plotly .annotation-text {
+  fill: var(--dark-text) !important;
+}
+
+.dark-mode .js-plotly-plot .plotly .xgrid,
+.dark-mode .js-plotly-plot .plotly .ygrid {
+  stroke: var(--dark-border-color) !important;
+}
+
+.dark-mode .js-plotly-plot .plotly .modebar {
+  background-color: transparent !important;
+}
+
+.dark-mode .js-plotly-plot .plotly .modebar-btn path {
+  fill: var(--dark-text-muted) !important;
+}
