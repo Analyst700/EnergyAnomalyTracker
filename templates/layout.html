@@ -12,12 +12,12 @@
     <script src="https://cdn.plot.ly/plotly-2.20.0.min.js"></script>
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
-    {% if current_user.is_authenticated and current_user.settings.first() and current_user.settings.first().dark_mode %}
+    {% if current_user.is_authenticated and current_user.settings|length > 0 and current_user.settings[0].dark_mode %}
     <link rel="stylesheet" href="{{ url_for('static', filename='css/dark-theme.css') }}">
     {% endif %}
     {% block styles %}{% endblock %}
 </head>
-<body class="{% if current_user.is_authenticated and current_user.settings.first() and current_user.settings.first().dark_mode %}dark-mode{% endif %}">
+<body class="{% if current_user.is_authenticated and current_user.settings|length > 0 and current_user.settings[0].dark_mode %}dark-mode{% endif %}">
     <div class="wrapper">
         {% if current_user.is_authenticated %}
         <!-- Sidebar -->

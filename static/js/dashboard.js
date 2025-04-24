@@ -6,6 +6,11 @@ document.addEventListener('DOMContentLoaded', function() {
     createTimeOfDayChart();
 });
 
+// Function to check if dark mode is enabled
+function isDarkMode() {
+    return document.body.classList.contains('dark-mode');
+}
+
 function createEnergyConsumptionChart() {
     const chart = document.getElementById('consumptionChart');
     if (!chart) return;
@@ -46,7 +51,11 @@ function createEnergyConsumptionChart() {
     // Create the chart
     createAnomalyLineChart('consumptionChart', timeData, valueData, anomalyData, {
         title: 'Energy Consumption Trend (Last 30 Days)',
-        height: 300
+        height: 300,
+        plotBgColor: isDarkMode() ? 'rgba(40, 55, 71, 0.9)' : 'rgba(255,255,255,0.9)',
+        paperBgColor: isDarkMode() ? 'rgba(40, 55, 71, 0.9)' : 'rgba(255,255,255,0.9)',
+        textColor: isDarkMode() ? '#ecf0f1' : '#333',
+        gridColor: isDarkMode() ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'
     });
 }
 
@@ -155,21 +164,30 @@ function createTimeOfDayChart() {
         },
         xaxis: {
             title: 'Time of Day',
-            showgrid: false
+            showgrid: false,
+            color: isDarkMode() ? '#ecf0f1' : '#333'
         },
         yaxis: {
             title: 'Energy Usage (kWh)',
-            showgrid: true
+            showgrid: true,
+            gridcolor: isDarkMode() ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)',
+            color: isDarkMode() ? '#ecf0f1' : '#333'
         },
         showlegend: true,
         legend: {
             x: 0,
             y: 1.1,
-            orientation: 'h'
+            orientation: 'h',
+            font: {
+                color: isDarkMode() ? '#ecf0f1' : '#333'
+            }
         },
         hovermode: 'closest',
-        plot_bgcolor: 'rgba(255,255,255,0.9)',
-        paper_bgcolor: 'rgba(255,255,255,0.9)'
+        plot_bgcolor: isDarkMode() ? 'rgba(40, 55, 71, 0.9)' : 'rgba(255,255,255,0.9)',
+        paper_bgcolor: isDarkMode() ? 'rgba(40, 55, 71, 0.9)' : 'rgba(255,255,255,0.9)',
+        font: {
+            color: isDarkMode() ? '#ecf0f1' : '#333'
+        }
     };
     
     // Create the chart
