@@ -27,7 +27,7 @@ html, body {
 }
 
 .login-image-container {
-  background-image: url('https://images.unsplash.com/photo-1497435334941-8c899ee9e8e9');
+  background-image: url('../images/login-bg.jpg');
   background-size: cover;
   background-position: center;
   height: 100%;
