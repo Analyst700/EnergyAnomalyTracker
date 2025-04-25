@@ -270,8 +270,7 @@ def delete_dataset(dataset_id):
     try:
         dataset = Dataset.query.get_or_404(dataset_id)
         if dataset.user_id != current_user.id:
-            flash('Unauthorized access.', 'danger')
-            return redirect(url_for('dashboard'))
+            return jsonify({'success': False, 'message': 'Unauthorized access'}), 403
             
         # Delete associated recommendations and detections
         for detection in dataset.detections:
@@ -280,12 +279,10 @@ def delete_dataset(dataset_id):
             
         db.session.delete(dataset)
         db.session.commit()
-        flash('Dataset deleted successfully', 'success')
+        return jsonify({'success': True})
     except Exception as e:
         db.session.rollback()
-        flash(f'Error deleting dataset: {str(e)}', 'danger')
-    
-    return redirect(url_for('dashboard'))
+        return jsonify({'success': False, 'message': str(e)}), 500
 
 @app.route('/delete_detection/<int:detection_id>', methods=['POST'])
 @login_required
@@ -293,19 +290,16 @@ def delete_detection(detection_id):
     try:
         detection = AnomalyDetection.query.get_or_404(detection_id)
         if detection.dataset.user_id != current_user.id:
-            flash('Unauthorized access.', 'danger')
-            return redirect(url_for('dashboard'))
+            return jsonify({'success': False, 'message': 'Unauthorized access'}), 403
             
         # Delete associated recommendations
         Recommendation.query.filter_by(detection_id=detection.id).delete()
         db.session.delete(detection)
         db.session.commit()
-        flash('Detection deleted successfully', 'success')
+        return jsonify({'success': True})
     except Exception as e:
         db.session.rollback()
-        flash(f'Error deleting detection: {str(e)}', 'danger')
-    
-    return redirect(url_for('dashboard'))
+        return jsonify({'success': False, 'message': str(e)}), 500
 
 @app.route('/delete_recommendation/<int:recommendation_id>', methods=['POST'])
 @login_required

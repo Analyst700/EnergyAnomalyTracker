@@ -1,3 +1,60 @@
+
+// Delete dataset function
+function deleteDataset(id) {
+    if (!confirm('Are you sure you want to delete this dataset and its associated detections?')) return;
+    
+    const element = document.querySelector(`.dataset-row[data-dataset-id="${id}"]`);
+    if (!element) return;
+    
+    fetch(`/delete_dataset/${id}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            element.style.opacity = '0';
+            element.style.transition = 'opacity 0.3s ease';
+            setTimeout(() => {
+                element.remove();
+                if (document.querySelectorAll('.dataset-row').length === 0) {
+                    location.reload();
+                }
+            }, 300);
+        }
+    });
+}
+
+// Delete detection function
+function deleteDetection(id) {
+    if (!confirm('Are you sure you want to delete this detection and its recommendations?')) return;
+    
+    const element = document.querySelector(`.detection-row[data-detection-id="${id}"]`);
+    if (!element) return;
+    
+    fetch(`/delete_detection/${id}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            element.style.opacity = '0';
+            element.style.transition = 'opacity 0.3s ease';
+            setTimeout(() => {
+                element.remove();
+                if (document.querySelectorAll('.detection-row').length === 0) {
+                    location.reload();
+                }
+            }, 300);
+        }
+    });
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     // Create sample dashboard charts with mock data
     createEnergyConsumptionChart();
