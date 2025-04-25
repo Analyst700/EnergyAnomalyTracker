@@ -60,9 +60,19 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Function to apply theme preferences (light/dark mode)
 function applyThemePreferences() {
-    // Check if user has dark mode enabled in settings
-    const isDarkMode = localStorage.getItem('darkMode') === 'true';
-    const wasInDarkMode = document.body.classList.contains('dark-mode');
+    const currentTheme = localStorage.getItem('theme') || 'light';
+    const prevTheme = document.body.className.match(/(?:dark|energy|alert)-mode/)?.[0] || '';
+    
+    // Remove all theme classes
+    document.body.classList.remove('dark-mode', 'energy-mode', 'alert-mode');
+    
+    // Apply new theme
+    if (currentTheme !== 'light') {
+        document.body.classList.add(`${currentTheme}-mode`);
+    }
+    
+    // If theme changed, redraw charts
+    if (prevTheme !== `${currentTheme}-mode`) {
     
     if (isDarkMode) {
         document.body.classList.add('dark-mode');

@@ -1,7 +1,24 @@
-/* Dark Theme Styles */
+/* Theme Variables */
 :root {
+  /* Dark Theme */
   --dark-primary-color: #1a5278;
   --dark-secondary-color: #24688c;
+  
+  /* Energy Saver Theme */
+  --energy-primary-color: #2ecc71;
+  --energy-secondary-color: #27ae60;
+  --energy-accent-color: #16a085;
+  --energy-bg: #f0f6f0;
+  --energy-card-bg: #ffffff;
+  --energy-text: #2c3e50;
+  
+  /* High Alert Theme */
+  --alert-primary-color: #e74c3c;
+  --alert-secondary-color: #c0392b;
+  --alert-accent-color: #d35400;
+  --alert-bg: #fdf1f0;
+  --alert-card-bg: #ffffff;
+  --alert-text: #2c3e50;
   --dark-accent-color: #27ae60;
   --dark-danger-color: #c0392b;
   --dark-warning-color: #d35400;
