@@ -16,16 +16,65 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function initMainChart() {
-    // Convert data to appropriate format for charting
-    // Note: timeData and valueData are already provided from Flask template
+    // Create normal consumption trace
+    const normalTrace = {
+        x: timeData,
+        y: valueData,
+        type: 'scatter',
+        mode: 'lines',
+        name: 'Energy Consumption',
+        line: {
+            color: '#2980b9',
+            width: 2
+        }
+    };
+    
+    // Create anomaly points trace
+    const anomalyPoints = {
+        x: timeData.filter((_, i) => anomalyBoolArray[i]),
+        y: valueData.filter((_, i) => anomalyBoolArray[i]),
+        type: 'scatter',
+        mode: 'markers',
+        name: 'Anomalies',
+        marker: {
+            color: '#e74c3c',
+            size: 8,
+            symbol: 'circle'
+        }
+    };
+    
+    // Define layout
+    const layout = {
+        title: 'Energy Consumption with Detected Anomalies',
+        autosize: true,
+        height: 400,
+        margin: {
+            l: 60,
+            r: 40,
+            b: 60,
+            t: 40,
+            pad: 4
+        },
+        xaxis: {
+            title: 'Time',
+            showgrid: true,
+            gridcolor: 'rgba(0,0,0,0.1)'
+        },
+        yaxis: {
+            title: 'Energy Usage (kWh)',
+            showgrid: true,
+            gridcolor: 'rgba(0,0,0,0.1)'
+        },
+        showlegend: true,
+        legend: {
+            x: 0,
+            y: 1.1,
+            orientation: 'h'
+        }
+    };
     
     // Create the chart
-    createAnomalyLineChart('mainChart', timeData, valueData, anomalyBoolArray, {
-        title: 'Energy Consumption with Detected Anomalies',
-        xAxisTitle: 'Time',
-        yAxisTitle: 'Energy Usage (kWh)',
-        height: 400
-    });
+    Plotly.newPlot('mainChart', [normalTrace, anomalyPoints], layout, {responsive: true});
 }
 
 function calculateAverageDeviation() {

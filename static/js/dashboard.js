@@ -47,11 +47,20 @@ function deleteDetection(id) {
             element.style.transition = 'opacity 0.3s ease';
             setTimeout(() => {
                 element.remove();
-                if (document.querySelectorAll('.detection-row').length === 0) {
-                    location.reload();
+                // Check if there are any remaining detections
+                const remainingDetections = document.querySelectorAll('.detection-row');
+                if (remainingDetections.length === 0) {
+                    // If no detections left, reload the page
+                    window.location.reload();
                 }
             }, 300);
+        } else {
+            alert('Failed to delete detection. Please try again.');
         }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Error deleting detection. Please try again.');
     });
 }
 
