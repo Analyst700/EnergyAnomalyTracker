@@ -46,11 +46,9 @@
                                             <a href="{{ url_for('results', detection_id=recommendation.detection_id) }}" class="btn btn-sm btn-outline-primary">
                                                 <i class="fas fa-chart-line"></i> View Analysis
                                             </a>
-                                            <form action="{{ url_for('delete_recommendation', recommendation_id=recommendation.id) }}" method="post" class="d-inline" onsubmit="return confirm('Are you sure you want to delete this recommendation?');">
-                                                <button type="submit" class="btn btn-sm btn-danger">
-                                                    <i class="fas fa-trash-alt"></i>
-                                                </button>
-                                            </form>
+                                            <button onclick="deleteRecommendation({{ recommendation.id }})" class="btn btn-sm btn-outline-danger delete-btn">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
                                         </div>
                                     </div>
                                 </div>

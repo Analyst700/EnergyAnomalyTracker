@@ -1,3 +1,22 @@
+function deleteRecommendation(id) {
+    if (!confirm('Are you sure you want to delete this recommendation?')) return;
+    
+    fetch(`/delete_recommendation/${id}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            const element = document.querySelector(`[data-recommendation-id="${id}"]`);
+            element.style.opacity = '0';
+            setTimeout(() => element.remove(), 300);
+        }
+    });
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     // Initialize recommendation filtering
     initRecommendationFilters();

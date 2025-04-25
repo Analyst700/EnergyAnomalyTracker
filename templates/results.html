@@ -116,11 +116,9 @@
                                     </div>
                                     <div class="recommendation-content">
                                         <p>{{ recommendation.text }}</p>
-                                        <form action="{{ url_for('delete_recommendation', recommendation_id=recommendation.id) }}" method="post" class="d-inline float-end" onsubmit="return confirm('Are you sure you want to delete this recommendation?');">
-                                            <button type="submit" class="btn btn-sm btn-danger">
-                                                <i class="fas fa-trash-alt"></i>
-                                            </button>
-                                        </form>
+                                        <button onclick="deleteRecommendation({{ recommendation.id }})" class="btn btn-sm btn-outline-danger delete-btn float-end">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
                                     </div>
                                 </div>
                             {% endfor %}
