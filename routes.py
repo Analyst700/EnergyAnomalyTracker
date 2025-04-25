@@ -239,6 +239,31 @@ def recommendations():
     
     return render_template('recommendations.html', title='Recommendations', recommendations=recommendations)
 
+@app.route('/delete_history', methods=['POST'])
+@login_required
+def delete_history():
+    try:
+        # Get all datasets for the user
+        datasets = Dataset.query.filter_by(user_id=current_user.id).all()
+        
+        for dataset in datasets:
+            # Delete associated recommendations
+            Recommendation.query.join(AnomalyDetection).filter(AnomalyDetection.dataset_id == dataset.id).delete(synchronize_session=False)
+            
+            # Delete anomaly detections
+            AnomalyDetection.query.filter_by(dataset_id=dataset.id).delete()
+            
+            # Delete the dataset
+            db.session.delete(dataset)
+        
+        db.session.commit()
+        flash('History deleted successfully', 'success')
+    except Exception as e:
+        db.session.rollback()
+        flash(f'Error deleting history: {str(e)}', 'danger')
+    
+    return redirect(url_for('dashboard'))
+
 @app.route('/settings', methods=['GET', 'POST'])
 @login_required
 def settings():

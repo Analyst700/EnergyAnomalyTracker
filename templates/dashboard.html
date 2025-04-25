@@ -31,8 +31,13 @@
                 </div>
             </div>
         </div>
+        <form action="{{ url_for('delete_history') }}" method="post" class="delete-history-form" onsubmit="return confirm('Are you sure you want to delete all history? This action cannot be undone.');">
+            <button type="submit" class="btn btn-danger">
+                <i class="fas fa-trash"></i> Delete All History
+            </button>
+        </form>
     </div>
-    
+
     <div class="row">
         <div class="col-md-6">
             <div class="card mb-4">
@@ -55,7 +60,7 @@
             </div>
         </div>
     </div>
-    
+
     <div class="row">
         <div class="col-md-4">
             <div class="card mb-4">
@@ -78,7 +83,7 @@
             </div>
         </div>
     </div>
-    
+
     <div class="row">
         <div class="col-md-6">
             <div class="card mb-4">
@@ -163,7 +168,7 @@
             </div>
         </div>
     </div>
-    
+
     <div class="row">
         <div class="col-12">
             <div class="card mb-4">
