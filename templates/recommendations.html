@@ -42,9 +42,16 @@
                                     </div>
                                     <div class="recommendation-footer">
                                         <small class="text-muted">Based on analysis of {{ recommendation.detection.dataset.name }}</small>
-                                        <a href="{{ url_for('results', detection_id=recommendation.detection_id) }}" class="btn btn-sm btn-outline-primary">
-                                            <i class="fas fa-chart-line"></i> View Analysis
-                                        </a>
+                                        <div class="btn-group">
+                                            <a href="{{ url_for('results', detection_id=recommendation.detection_id) }}" class="btn btn-sm btn-outline-primary">
+                                                <i class="fas fa-chart-line"></i> View Analysis
+                                            </a>
+                                            <form action="{{ url_for('delete_recommendation', recommendation_id=recommendation.id) }}" method="post" class="d-inline" onsubmit="return confirm('Are you sure you want to delete this recommendation?');">
+                                                <button type="submit" class="btn btn-sm btn-danger">
+                                                    <i class="fas fa-trash-alt"></i>
+                                                </button>
+                                            </form>
+                                        </div>
                                     </div>
                                 </div>
                             {% endfor %}

@@ -307,6 +307,25 @@ def delete_detection(detection_id):
     
     return redirect(url_for('dashboard'))
 
+@app.route('/delete_recommendation/<int:recommendation_id>', methods=['POST'])
+@login_required
+def delete_recommendation(recommendation_id):
+    try:
+        recommendation = Recommendation.query.get_or_404(recommendation_id)
+        # Check if user owns the associated detection/dataset
+        if recommendation.detection.dataset.user_id != current_user.id:
+            flash('Unauthorized access.', 'danger')
+            return redirect(url_for('dashboard'))
+            
+        db.session.delete(recommendation)
+        db.session.commit()
+        flash('Recommendation deleted successfully', 'success')
+    except Exception as e:
+        db.session.rollback()
+        flash(f'Error deleting recommendation: {str(e)}', 'danger')
+    
+    return redirect(request.referrer or url_for('dashboard'))
+
 @app.route('/settings', methods=['GET', 'POST'])
 @login_required
 def settings():
