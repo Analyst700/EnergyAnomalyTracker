@@ -10,9 +10,17 @@ function deleteRecommendation(id) {
     .then(response => response.json())
     .then(data => {
         if (data.success) {
-            const element = document.querySelector(`[data-recommendation-id="${id}"]`);
-            element.style.opacity = '0';
-            setTimeout(() => element.remove(), 300);
+            const element = document.querySelector(`.recommendation-card[data-recommendation-id="${id}"], .recommendation-item[data-recommendation-id="${id}"]`);
+            if (element) {
+                element.style.opacity = '0';
+                element.style.transition = 'opacity 0.3s ease';
+                setTimeout(() => element.remove(), 300);
+            }
+            // Refresh the page if no more recommendations
+            const remainingRecommendations = document.querySelectorAll('.recommendation-card, .recommendation-item');
+            if (remainingRecommendations.length <= 1) {
+                setTimeout(() => location.reload(), 400);
+            }
         }
     });
 }

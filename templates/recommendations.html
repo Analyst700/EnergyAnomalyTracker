@@ -28,7 +28,7 @@
                             {% for recommendation in recommendations %}
                                 {% set priority_class = 'high' if recommendation.priority >= 4 else ('medium' if recommendation.priority == 3 else 'low') %}
                                 
-                                <div class="recommendation-card priority-{{ priority_class }}" data-priority="{{ priority_class }}">
+                                <div class="recommendation-card priority-{{ priority_class }}" data-priority="{{ priority_class }}" data-recommendation-id="{{ recommendation.id }}">
                                     <div class="recommendation-header">
                                         <div class="priority-badge priority-{{ priority_class }}">
                                             {{ 'High' if recommendation.priority >= 4 else ('Medium' if recommendation.priority == 3 else 'Low') }}

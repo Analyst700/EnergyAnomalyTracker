@@ -104,7 +104,7 @@
                     {% if recommendations %}
                         <div class="recommendations-container">
                             {% for recommendation in recommendations %}
-                                <div class="recommendation-item priority-{{ recommendation.priority }}">
+                                <div class="recommendation-item priority-{{ recommendation.priority }}" data-recommendation-id="{{ recommendation.id }}">
                                     <div class="recommendation-icon">
                                         {% if recommendation.priority >= 4 %}
                                             <i class="fas fa-exclamation-triangle"></i>
