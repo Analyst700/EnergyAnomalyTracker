@@ -562,48 +562,6 @@ body {
 
 /* Dashboard styles */
 .dashboard-container {
-
-/* Energy Saver Theme */
-body.energy-mode {
-  background-color: var(--energy-bg);
-  color: var(--energy-text);
-}
-
-.energy-mode .card,
-.energy-mode .navbar,
-.energy-mode .sidebar {
-  background: linear-gradient(to bottom, var(--energy-primary-color), var(--energy-secondary-color));
-  color: #fff;
-}
-
-.energy-mode .chart-container {
-  background-color: var(--energy-card-bg);
-  border: 1px solid var(--energy-accent-color);
-}
-
-/* High Alert Theme */
-body.alert-mode {
-  background-color: var(--alert-bg);
-  color: var(--alert-text);
-}
-
-.alert-mode .card,
-.alert-mode .navbar,
-.alert-mode .sidebar {
-  background: linear-gradient(to bottom, var(--alert-primary-color), var(--alert-secondary-color));
-  color: #fff;
-}
-
-.alert-mode .chart-container {
-  background-color: var(--alert-card-bg);
-  border: 1px solid var(--alert-accent-color);
-}
-
-.alert-mode .anomaly-point {
-  color: var(--alert-primary-color);
-  animation: pulse 2s infinite;
-}
-
   padding: 20px 0;
 }
 
